@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finalizar compra | Melodium Instrumentos</title>
+<style>
+  body{background:#000;color:#fff;font-family:system-ui,sans-serif;max-width:480px;margin:40px auto;padding:0 20px}
+  h1{font-size:22px;margin-bottom:20px;color:#D4AF37}
+  label{display:block;margin:14px 0 6px;font-size:14px;color:#ccc}
+  input{width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#141414;color:#fff}
+  .checkbox-row{display:flex;align-items:center;gap:8px;margin-top:18px}
+  .checkbox-row input{width:auto}
+  button{margin-top:22px;width:100%;padding:13px;background:#D4AF37;color:#000;font-weight:700;border:none;border-radius:9px;cursor:pointer}
+  button:disabled{background:#444;color:#888;cursor:not-allowed}
+  .error{color:#f2635c;font-size:13px;margin-top:6px;display:none}
+</style>
+</head>
+<body>
+  <h1>Datos de compra</h1>
+  <form id="checkoutForm">
+    <label>Nombre completo</label>
+    <input type="text" id="nombre" required>
+
+    <label>Fecha de nacimiento</label>
+    <input type="date" id="fechaNacimiento" required>
+    <span class="error" id="errorEdad">Debes ser mayor de edad para comprar.</span>
+
+    <label>Correo electrónico</label>
+    <input type="email" id="correo" required>
+
+    <label>Dirección de envío</label>
+    <input type="text" id="direccion" required>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="confirmoEdad" required>
+      <label style="margin:0" for="confirmoEdad">Confirmo que soy mayor de edad</label>
+    </div>
+
+    <button type="submit" id="btnContinuar">Continuar con el pago</button>
+  </form>
+
+<script>
+  var form = document.getElementById("checkoutForm");
+  var fechaInput = document.getElementById("fechaNacimiento");
+  var errorEdad = document.getElementById("errorEdad");
+
+  function calcularEdad(fechaStr){
+    var hoy = new Date();
+    var nacimiento = new Date(fechaStr);
+    var edad = hoy.getFullYear() - nacimiento.getFullYear();
+    var m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
+    return edad;
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var edad = calcularEdad(fechaInput.value);
+    if (!fechaInput.value || edad < 18){
+      errorEdad.style.display = "block";
+      return;
+    }
+    errorEdad.style.display = "none";
+    // Aquí rediriges al siguiente paso real (pago, backend, etc.)
+    window.location.href = "pago.html";
+  });
+</script>
+</body>
+</html>
