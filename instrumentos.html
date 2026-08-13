@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instrumentos | Melodium Instrumentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#D4AF37;
+    --gold-light:#e4c158;
+    --black:#000000;
+    --bg-dark:#0a0a0a;
+    --bg-card:#141414;
+    --bg-card-2:#0d0d0d;
+    --border:rgba(255,255,255,.1);
+    --text-muted:#9a9a9a;
+    --text-dim:#6b6b6b;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--black);
+    color:#fff;
+    font-family:'Poppins',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit}
+  img{display:block;max-width:100%}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-track{background:#0a0a0a}
+  ::-webkit-scrollbar-thumb{background:#333;border-radius:8px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 32px;
+    background:rgba(10,10,10,.9);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
+  .nav-logo .icon{
+    width:38px;height:38px;border-radius:10px;
+    background:linear-gradient(135deg,var(--gold),#8a6d1f);
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+  }
+  .nav-logo .sub{display:block;font-size:10px;font-weight:600;letter-spacing:3px;color:var(--gold)}
+  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:600;letter-spacing:.3px}
+  .nav-links a{color:#cfcfcf;position:relative;padding-bottom:6px;transition:color .2s}
+  .nav-links a:hover{color:#fff}
+  .nav-links a.active{color:var(--gold)}
+  .nav-links a.active::after{
+    content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--gold);
+  }
+  .nav-actions{display:flex;align-items:center;gap:20px}
+  .nav-icon-btn{position:relative;color:#e5e5e5;transition:color .2s}
+  .nav-icon-btn:hover{color:var(--gold)}
+  .cart-badge{
+    position:absolute;top:-8px;right:-9px;background:var(--gold);color:#000;
+    font-size:10px;font-weight:800;border-radius:50%;width:17px;height:17px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .nav-mobile-toggle{display:none}
+
+  /* ---------- MOBILE NAV DRAWER ---------- */
+  .mobile-nav{
+    position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.7);
+    display:none;
+  }
+  .mobile-nav.show{display:block}
+  .mobile-nav-panel{
+    position:absolute;top:0;right:0;height:100%;width:78%;max-width:320px;
+    background:#0d0d0d;border-left:1px solid var(--border);
+    padding:20px;display:flex;flex-direction:column;gap:4px;
+    transform:translateX(100%);transition:transform .25s ease;
+  }
+  .mobile-nav.show .mobile-nav-panel{transform:translateX(0)}
+  .mobile-nav-close{align-self:flex-end;color:#999;padding:6px;margin-bottom:12px}
+  .mobile-nav-panel a{
+    padding:14px 8px;font-size:15px;font-weight:600;color:#d5d5d5;
+    border-bottom:1px solid var(--border);
+  }
+  .mobile-nav-panel a.active{color:var(--gold)}
+
+  /* ---------- LAYOUT ---------- */
+  .page{max-width:1440px;margin:0 auto;padding:32px 20px 60px}
+  .page-header{
+    display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;
+    margin-bottom:28px;
+  }
+  .page-header h1{
+    font-size:clamp(26px,4vw,38px);font-weight:900;letter-spacing:.5px;
+    background:linear-gradient(180deg,#fff,#cfcfcf);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .page-header p{color:var(--text-muted);margin-top:4px;font-size:14px}
+  .header-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+
+  /* ---------- SORT SELECT ---------- */
+  .sort-wrap{position:relative}
+  .sort-label{font-size:13px;color:var(--text-muted);margin-right:8px}
+  .sort-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--border);background:var(--bg-card);
+    padding:11px 16px;border-radius:10px;font-weight:600;font-size:14px;color:#fff;
+    transition:border-color .2s;
+  }
+  .sort-btn:hover{border-color:rgba(212,175,55,.5)}
+  .sort-btn svg{transition:transform .2s}
+  .sort-btn.open svg{transform:rotate(180deg)}
+  .sort-menu{
+    position:absolute;right:0;top:calc(100% + 8px);z-index:30;width:210px;
+    background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,.5);
+    display:none;
+  }
+  .sort-menu.show{display:block}
+  .sort-menu button{
+    display:block;width:100%;text-align:left;padding:11px 16px;font-size:14px;color:#d5d5d5;
+    transition:background .15s,color .15s;
+  }
+  .sort-menu button:hover{background:rgba(255,255,255,.06);color:#fff}
+  .sort-menu button.active{background:rgba(212,175,55,.12);color:var(--gold)}
+
+  /* ---------- RESULT BANNER ---------- */
+  .search-banner{
+    display:none;align-items:center;gap:10px;flex-wrap:wrap;
+    border:1px solid rgba(212,175,55,.3);background:rgba(212,175,55,.06);
+    padding:11px 16px;border-radius:10px;font-size:14px;color:#d5d5d5;margin-bottom:22px;
+  }
+  .search-banner.show{display:flex}
+  .search-banner b{color:var(--gold)}
+  .search-banner .clear-btn{margin-left:auto;display:flex;align-items:center;gap:6px;color:var(--text-dim);font-size:13px}
+  .search-banner .clear-btn:hover{color:#fff}
+
+  /* ---------- BODY LAYOUT ---------- */
+  .body-layout{display:flex;gap:28px;align-items:flex-start}
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    width:260px;flex-shrink:0;
+    border:1px solid var(--border);border-radius:var(--radius);
+    background:rgba(20,20,20,.5);padding:16px;
+    position:sticky;top:90px;
+  }
+  .sidebar h2{
+    font-size:12px;font-weight:800;letter-spacing:2px;color:#fff;
+    padding:0 8px;margin-bottom:10px;text-transform:uppercase;
+  }
+  .cat-list{display:flex;flex-direction:column;gap:2px;max-height:64vh;overflow-y:auto}
+  .cat-btn{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:9px 10px;border-radius:8px;font-size:14px;color:#c9c9c9;
+    border-left:2px solid transparent;transition:background .15s,color .15s;text-align:left;
+    width:100%;
+  }
+  .cat-btn:hover{background:rgba(255,255,255,.05);color:#fff}
+  .cat-btn.active{
+    background:rgba(212,175,55,.1);color:var(--gold);border-left-color:var(--gold);font-weight:600;
+  }
+  .cat-btn .cat-left{display:flex;align-items:center;gap:10px}
+  .cat-emoji{font-size:16px;width:20px;text-align:center;filter:grayscale(1) opacity(.7)}
+  .cat-btn.active .cat-emoji{filter:none}
+  .cat-count{font-size:12px;color:#5f5f5f}
+  .cat-btn.active .cat-count{color:rgba(212,175,55,.8)}
+  .cat-btn.group{font-weight:700}
+
+  /* ---------- GRID ---------- */
+  main{flex:1;min-width:0}
+  .grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:18px;
+  }
+  @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:1024px){.grid{grid-template-columns:repeat(4,1fr)}}
+  @media(min-width:1280px){.grid{grid-template-columns:repeat(5,1fr)}}
+
+  .card{
+    opacity:0;transform:translateY(24px);
+    transition:opacity .45s ease,transform .45s ease,border-color .3s,box-shadow .3s;
+    background:linear-gradient(180deg,#151515,#000);
+    border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .card.visible{opacity:1;transform:translateY(0)}
+  .card:hover{border-color:rgba(212,175,55,.5);box-shadow:0 16px 34px rgba(0,0,0,.55);transform:translateY(-6px)}
+  .card-media{position:relative;aspect-ratio:1/1;background:#0b0b0b;overflow:hidden}
+  .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .card:hover .card-media img{transform:scale(1.06)}
+  .badge-discount{
+    position:absolute;top:10px;left:10px;z-index:2;background:var(--gold);color:#000;
+    font-size:11px;font-weight:800;padding:4px 9px;border-radius:20px;
+  }
+  .fav-btn{
+    position:absolute;top:10px;right:10px;z-index:2;width:34px;height:34px;border-radius:50%;
+    background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;
+    transition:background .2s;
+  }
+  .fav-btn:hover{background:rgba(0,0,0,.85)}
+  .fav-btn svg{stroke:#fff;fill:none;transition:fill .2s,stroke .2s}
+  .fav-btn.active svg{fill:var(--gold);stroke:var(--gold)}
+  .out-overlay{
+    position:absolute;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;z-index:2;
+  }
+  .out-overlay span{border:1px solid rgba(255,255,255,.25);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+
+  .card-body{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .card-brand{font-size:11px;font-weight:600;letter-spacing:.4px;color:rgba(212,175,55,.85);text-transform:uppercase}
+  .card-title{font-size:13.5px;font-weight:600;line-height:1.35;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card-rating{display:flex;align-items:center;gap:6px}
+  .stars{display:flex;gap:1px}
+  .stars svg{width:13px;height:13px}
+  .card-rating span{font-size:11.5px;color:var(--text-dim)}
+  .card-price{display:flex;align-items:baseline;gap:8px;margin-top:2px}
+  .card-price .now{font-size:17px;font-weight:800}
+  .card-price .prev{font-size:12.5px;color:#666;text-decoration:line-through}
+  .card-stock{font-size:11.5px;font-weight:600}
+  .stock-ok{color:#3ecf8e}
+  .stock-low{color:#f2b544}
+  .stock-out{color:#f2635c}
+  .card-actions{display:flex;gap:8px;margin-top:8px}
+  .btn-buy{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+    background:var(--gold);color:#000;font-weight:700;font-size:13.5px;border-radius:9px;padding:10px 0;
+    transition:transform .15s,background .2s;
+  }
+  .btn-buy:hover{background:var(--gold-light);transform:scale(1.02)}
+  .btn-buy:disabled{background:#3a3a3a;color:#888;cursor:not-allowed;transform:none}
+  .btn-cart{
+    width:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(255,255,255,.15);border-radius:9px;color:#fff;transition:border-color .2s,color .2s;
+  }
+  .btn-cart:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-cart:disabled{opacity:.35;cursor:not-allowed}
+
+  .empty-state{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    padding:100px 20px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(20,20,20,.4);
+    color:var(--text-muted);
+  }
+  .empty-state svg{margin-bottom:12px;color:#3d3d3d}
+
+  /* ---------- PAGINATION ---------- */
+  .pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:44px;flex-wrap:wrap}
+  .page-nav-btn{
+    display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:9px;
+    border:1px solid var(--border);color:#d5d5d5;font-size:13.5px;transition:border-color .2s,color .2s;
+  }
+  .page-nav-btn:hover:not(:disabled){border-color:rgba(212,175,55,.5);color:#fff}
+  .page-nav-btn:disabled{opacity:.3;cursor:not-allowed}
+  .page-num{
+    width:36px;height:36px;border-radius:9px;font-size:13.5px;font-weight:700;
+    border:1px solid var(--border);color:#d5d5d5;display:flex;align-items:center;justify-content:center;
+    transition:border-color .2s,color .2s,background .2s;
+  }
+  .page-num:hover{border-color:rgba(212,175,55,.5);color:#fff}
+  .page-num.active{background:var(--gold);color:#000;border-color:var(--gold)}
+  .page-ellipsis{color:#555;padding:0 4px}
+
+  /* ---------- SEARCH OVERLAY ---------- */
+  .search-overlay{
+    position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.82);backdrop-filter:blur(4px);
+    display:none;align-items:flex-start;justify-content:center;padding:90px 16px 20px;
+  }
+  .search-overlay.show{display:flex}
+  .search-modal{
+    width:100%;max-width:620px;background:#0e0e0e;border:1px solid var(--border);border-radius:16px;
+    overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.6);
+    transform:translateY(-14px);opacity:0;transition:transform .2s ease,opacity .2s ease;
+  }
+  .search-overlay.show .search-modal{transform:translateY(0);opacity:1}
+  .search-input-row{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border)}
+  .search-input-row svg{flex-shrink:0;color:var(--gold)}
+  .search-input-row input{
+    flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:15.5px;font-family:inherit;
+    min-width:0;
+  }
+  .search-input-row input::placeholder{color:#666}
+  .search-close{color:#777;transition:color .2s;flex-shrink:0}
+  .search-close:hover{color:#fff}
+  .search-results{max-height:60vh;overflow-y:auto}
+  .search-results .no-results{padding:26px 18px;text-align:center;color:#777;font-size:14px}
+  .suggestion{
+    display:flex;align-items:center;gap:12px;width:100%;padding:10px 18px;text-align:left;
+    transition:background .15s;
+  }
+  .suggestion:hover{background:rgba(255,255,255,.05)}
+  .suggestion img{width:44px;height:44px;object-fit:cover;background:#141414;border-radius:8px;flex-shrink:0}
+  .suggestion .name{display:block;font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .suggestion .meta{display:block;font-size:12px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .see-all{
+    display:block;width:100%;padding:13px;text-align:center;font-size:14px;font-weight:700;color:var(--gold);
+    border-top:1px solid var(--border);transition:background .15s;
+  }
+  .see-all:hover{background:rgba(212,175,55,.08)}
+
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:#171717;border:1px solid rgba(212,175,55,.4);color:#fff;font-size:14px;font-weight:600;
+    padding:12px 22px;border-radius:10px;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+    max-width:90vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--border);margin-top:40px}
+  .footer-grid{
+    max-width:1440px;margin:0 auto;padding:36px 32px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  }
+  .footer-item{display:flex;align-items:center;gap:14px}
+  .footer-item .f-icon{
+    width:42px;height:42px;border-radius:10px;border:1px solid rgba(212,175,55,.3);
+    display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;
+  }
+  .footer-item h4{font-size:13.5px;font-weight:700;margin-bottom:2px}
+  .footer-item p{font-size:12.5px;color:var(--text-dim)}
+  .footer-social{
+    display:flex;gap:10px;justify-content:center;padding:22px 32px 4px;
+    max-width:1440px;margin:0 auto;
+  }
+  .social-icon{
+    width:38px;height:38px;border-radius:50%;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;color:#c9c9c9;
+    transition:border-color .2s,color .2s,transform .2s;
+  }
+  .social-icon:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+  .footer-bottom{
+    border-top:1px solid var(--border);padding:18px 32px;display:flex;flex-wrap:wrap;gap:12px;
+    align-items:center;justify-content:space-between;max-width:1440px;margin:0 auto;
+    font-size:12.5px;color:var(--text-dim);
+  }
+  .footer-bottom a{color:var(--text-dim);transition:color .2s}
+  .footer-bottom a:hover{color:var(--gold)}
+  .footer-links{display:flex;gap:20px}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:1023px){
+    .body-layout{flex-direction:column}
+    .sidebar{width:100%;position:static}
+    .cat-list{max-height:220px}
+    .nav-links{display:none}
+    .nav-mobile-toggle{display:flex}
+    .footer-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(min-width:1024px){
+    .mobile-nav{display:none!important}
+  }
+  @media(max-width:640px){
+    .navbar{padding:14px 16px}
+    .page{padding:24px 14px 40px}
+    .header-actions{width:100%}
+    .header-actions .sort-wrap{width:100%}
+    .sort-btn{width:100%;justify-content:space-between}
+    .sort-menu{width:100%}
+    .footer-grid{grid-template-columns:1fr;padding:28px 20px}
+    .footer-bottom{flex-direction:column;align-items:flex-start;padding:16px 20px}
+    .search-overlay{padding:70px 12px 12px}
+  }
+  @media(max-width:420px){
+    .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .nav-logo .sub{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo">
+    <span class="icon">🎵</span>
+    <span>MUSIC<span style="color:var(--gold)"> PRO</span><span class="sub">MELODIUM INSTRUMENTOS</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#">INICIO</a>
+    <a href="#" class="active">INSTRUMENTOS</a>
+    <a href="#">OFERTAS</a>
+    <a href="#">CONTACTO</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-icon-btn" id="navSearchBtn" aria-label="Buscar" title="Buscar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button><button class="nav-icon-btn" aria-label="Cuenta" title="Mi cuenta">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+    </button>
+    <button class="nav-icon-btn" id="cartBtn" aria-label="Carrito" title="Carrito">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+      <span class="cart-badge" id="cartCount">2</span>
+    </button>
+    <button class="nav-icon-btn nav-mobile-toggle" id="mobileMenuBtn" aria-label="Menú" title="Menú">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-panel">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Cerrar menú">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="#">INICIO</a>
+    <a href="#" class="active">INSTRUMENTOS</a>
+    <a href="#">OFERTAS</a>
+    <a href="#">CONTACTO</a>
+  </div>
+</div>
+
+<div class="page">
+  <header class="page-header">
+    <div>
+      <h1>INSTRUMENTOS</h1>
+      <p>Encuentra el instrumento perfecto para ti.</p>
+    </div>
+    <div class="header-actions">
+      <div class="sort-wrap">
+        <span class="sort-label">Ordenar por:</span>
+        <button class="sort-btn" id="sortBtn">
+          <span id="sortLabel">Más populares</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sort-menu" id="sortMenu"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="search-banner" id="searchBanner">
+    <span>Resultados para <b id="searchBannerTerm"></b></span>
+    <button class="clear-btn" id="clearSearchBtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Limpiar
+    </button>
+  </div>
+
+  <div class="body-layout">
+    <aside class="sidebar">
+      <h2>Categorías</h2>
+      <nav class="cat-list" id="catList"></nav>
+    </aside>
+
+    <main>
+      <div class="grid" id="grid"></div>
+      <div class="pagination" id="pagination"></div>
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-item">
+      <div class="f-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div><h4>Envíos rápidos</h4><p>A todo el país</p></div>
+    </div>
+    <div class="footer-item">
+      <div class="f-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <div><h4>Compra segura</h4><p>Protegemos tus datos</p></div>
+    </div>
+    <div class="footer-item">
+      <div class="f-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg></div>
+      <div><h4>Garantía</h4><p>Productos 100% garantizados</p></div>
+    </div>
+    <div class="footer-item">
+      <div class="f-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+      <div><h4>Soporte 24/7</h4><p>Estamos para ayudarte</p></div>
+    </div>
+  </div>
+  <div class="footer-social">
+    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+    </a>
+    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
+    </a>
+    <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8zM9.6 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>
+    </a>
+    <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="TikTok">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 1.9 3.9 4.4 4.1v3c-1.6.1-3-.4-4.4-1.3v6.6a5.7 5.7 0 1 1-5.7-5.7c.3 0 .7 0 1 .1v3.1a2.6 2.6 0 1 0 1.8 2.5V3h2.9z"/></svg>
+    </a>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Music Pro. Todos los derechos reservados.</span>
+    <div class="footer-links">
+      <a href="#">Política de privacidad</a>
+      <a href="#">Términos y condiciones</a>
+    </div>
+  </div>
+</footer>
+
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-modal">
+    <div class="search-input-row">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Busca por nombre, marca, modelo o categoría...">
+      <button class="search-close" id="searchCloseBtn">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     1. CATEGORÍAS
+  ========================================================== */
+  var CATEGORIAS = [
+    { id:"guitarras", nombre:"Guitarras", emoji:"🎸", grupo:true },
+    { id:"guitarras-electricas", nombre:"Guitarras Eléctricas", emoji:"🎸" },
+    { id:"guitarras-acusticas", nombre:"Guitarras Acústicas", emoji:"🎸" },
+    { id:"bajos", nombre:"Bajos", emoji:"🎸" },
+    { id:"baterias", nombre:"Baterías", emoji:"🥁" },
+    { id:"teclados", nombre:"Teclados", emoji:"🎹" },
+    { id:"pianos", nombre:"Pianos", emoji:"🎹" },
+    { id:"violines", nombre:"Violines", emoji:"🎻" },
+    { id:"violonchelos", nombre:"Violonchelos", emoji:"🎻" },
+    { id:"saxofones", nombre:"Saxofones", emoji:"🎷" },
+    { id:"clarinetes", nombre:"Clarinetes", emoji:"🎶" },
+    { id:"trompetas", nombre:"Trompetas", emoji:"🎺" },
+    { id:"trombones", nombre:"Trombones", emoji:"🎶" },
+    { id:"flautas", nombre:"Flautas", emoji:"🎶" },
+    { id:"microfonos", nombre:"Micrófonos", emoji:"🎤" },
+    { id:"amplificadores", nombre:"Amplificadores", emoji:"🔊" },
+    { id:"percusion", nombre:"Percusión", emoji:"🪘" }
+  ];
+
+  /* =========================================================
+     2. IMÁGENES EXTERNAS POR CATEGORÍA (LoremFlickr - fotos reales,
+        sin archivos locales, con "lock" para que cada producto
+        muestre siempre la misma imagen de forma determinista)
+  ========================================================== */
+  var IMAGEN_PLACEHOLDER = encodeURI("imagenes/placeholder (1).jpg");
+  var IMAGEN_PLACEHOLDER_ALT = "imagenes/placeholder.jpg";
+
+  /* Nombres EXACTOS de tus carpetas/archivos */
+  var IMAGENES_CATEGORIA = {
+    "guitarras-electricas": ["imagenes/guitarras-electricas/guitarra-electrica-1 (1)","imagenes/guitarras-electricas/guitarra-electrica-2 (1)"],
+    "guitarras-acusticas": ["imagenes/guitarras-acusticas/guitarra-acustica-1 (1)","imagenes/guitarras-acusticas/guitarra-acustica-2 (1)"],
+    "bajos": ["imagenes/bajos/bajo-1 (1)","imagenes/bajos/bajo-2 (1)"],
+    "baterias": ["imagenes/baterias/bateria-1 (1)","imagenes/baterias/bateria-2 (2)"],
+    "teclados": ["imagenes/teclados/teclado-1 (1)","imagenes/teclados/teclado-2 (1)"],
+    "pianos": ["imagenes/pianos/piano-1 (1)","imagenes/pianos/piano-2 (1)"],
+    "violines": ["imagenes/violines/violin-1 (1)","imagenes/violines/violin-2 (1)"],
+    "violonchelos": ["imagenes/violonchelos/violonchelo-1 (1)","imagenes/violonchelos/violonchelo-2 (1)"],
+    "saxofones": ["imagenes/saxofones/saxofon-1 (2)","imagenes/saxofones/saxofon-2 (2)"],
+    "clarinetes": ["imagenes/clarinetes/clarinete-1 (1)","imagenes/clarinetes/clarinete-2 (1)"],
+    "trompetas": ["imagenes/trompetas/trompeta-1 (1)","imagenes/trompetas/trompeta-2 (1)"],
+    "trombones": ["imagenes/trombones/trombon-1 (4)","imagenes/trombones/trombon-2 (4)"],
+    "flautas": ["imagenes/flautas/flauta-1 (4)","imagenes/flautas/flauta-2 (4)"],
+    "microfonos": ["imagenes/microfonos/microfono-1 (4)","imagenes/microfonos/microfono-2 (4)"],
+    "audifonos": ["imagenes/audifonos/audifonos-1 (4)","imagenes/audifonos/audifonos-2 (5)"],
+    "interfaces": ["imagenes/interfaces/interfaz-1 (4)","imagenes/interfaces/interfaz-2 (4)"],
+    "mezcladoras": ["imagenes/mezcladorres/mezcladora-1 (5)","imagenes/mezcladorres/mezcladora-2 (5)"],
+    "amplificadores": ["imagenes/amplificadores/amplificador-1 (4)","imagenes/amplificadores/amplificador-2 (5)"],
+    "pedales": ["imagenes/pedales/pedal-1 (4)","imagenes/pedales/pedal-2 (4)"],
+    "dj": ["imagenes/dj/dj-1 (4)","imagenes/dj/dj-2 (4)"],
+    "percusion": ["imagenes/percusion/percusion-1 (4)","imagenes/percusion/percusion-2 (4)"],
+    "accesorios": ["imagenes/accesorios/accesorio-1 (4)","imagenes/accesorios/accesorio-2 (5)"]
+  };
+
+  /* Variantes de respaldo por si un archivo tiene otro sufijo */
+  function variantesDe(base){
+    var limpio = base.replace(/ \(\d+\)$/, "");
+    var v = [base];
+    if (limpio !== base) v.push(limpio);
+    for (var n = 1; n <= 5; n++){
+      var cand = limpio + " (" + n + ")";
+      if (v.indexOf(cand) === -1) v.push(cand);
+    }
+    if (v.indexOf("imagenes/mezcladorres/") === -1){
+      var alt = base.indexOf("/mezcladorres/") !== -1 ? base.replace("/mezcladorres/", "/mezcladoras/") : null;
+      if (alt) v.push(alt, alt.replace(/ \(\d+\)$/, ""));
+    }
+    return v;
+  }
+
+  function rutaImagen(base, i){
+    var v = variantesDe(base);
+    if (i >= v.length) return IMAGEN_PLACEHOLDER;
+    return encodeURI(v[i] + ".jpg");
+  }
+
+  function imagenProducto(catId, semilla){
+    var lista = IMAGENES_CATEGORIA[catId];
+    if (!lista || !lista.length) return IMAGEN_PLACEHOLDER;
+    return rutaImagen(lista[(semilla - 1) % lista.length], 0);
+  }
+
+  /* Fallback: prueba las variantes y, si ninguna existe, el placeholder */
+  window.imgFallback = function(img){
+    var base = img.getAttribute("data-base") || "";
+    var i = parseInt(img.getAttribute("data-try") || "0", 10) + 1;
+    if (base && i < variantesDe(base).length){
+      img.setAttribute("data-try", String(i));
+      img.src = rutaImagen(base, i);
+      return;
+    }
+    if (img.src.indexOf("placeholder%20(1)") === -1 && img.src.indexOf("placeholder (1)") === -1){
+      img.src = IMAGEN_PLACEHOLDER;
+      return;
+    }
+    img.onerror = null;
+    img.src = IMAGEN_PLACEHOLDER_ALT;
+  };
+
+  function baseDe(catId, semilla){
+    var lista = IMAGENES_CATEGORIA[catId];
+    if (!lista || !lista.length) return "";
+    return lista[(semilla - 1) % lista.length];
+  }
+
+  var ONERROR_IMG = ' onerror="imgFallback(this);" ';
+
+  /* =========================================================
+     3. GENERADOR DE CATÁLOGO (determinista, ~495 productos)
+  ========================================================== */
+  var SERIES = ["Pro Series","Standard","Custom Shop","Elite","Classic","Studio","Deluxe","Player","Vintage","Signature","Performer","Artist"];
+
+  var CONFIGS = [
+    { id:"guitarras-electricas", nombreProducto:"Guitarra Eléctrica", marcas:["Fender","Gibson","Ibanez","Squier","Epiphone","PRS","Jackson","ESP"], cantidad:30, precioMin:220, precioMax:2400, guitarras:true },
+    { id:"guitarras-acusticas", nombreProducto:"Guitarra Acústica", marcas:["Yamaha","Taylor","Martin","Cort","Fender","Ibanez","Epiphone"], cantidad:20, precioMin:150, precioMax:1800, guitarras:true },
+    { id:"bajos", nombreProducto:"Bajo Eléctrico", marcas:["Fender","Ibanez","Yamaha","Squier","ESP","Cort"], cantidad:30, precioMin:250, precioMax:2200 },
+    { id:"baterias", nombreProducto:"Batería Acústica", marcas:["Pearl","Tama","Yamaha","DW","Ludwig","Mapex"], cantidad:30, precioMin:320, precioMax:3200 },
+    { id:"teclados", nombreProducto:"Teclado Profesional", marcas:["Yamaha","Roland","Korg","Casio","Nord","Kawai"], cantidad:30, precioMin:160, precioMax:2600 },
+    { id:"pianos", nombreProducto:"Piano Digital", marcas:["Yamaha","Roland","Korg","Casio","Kawai"], cantidad:25, precioMin:420, precioMax:4200 },
+    { id:"violines", nombreProducto:"Violín", marcas:["Yamaha","Cremona","Stentor","Eastman"], cantidad:25, precioMin:110, precioMax:1900 },
+    { id:"violonchelos", nombreProducto:"Violonchelo", marcas:["Yamaha","Cremona","Stentor","Eastman"], cantidad:15, precioMin:320, precioMax:2800 },
+    { id:"saxofones", nombreProducto:"Saxofón Alto", marcas:["Yamaha","Selmer","Jupiter","Conn"], cantidad:20, precioMin:520, precioMax:3400 },
+    { id:"clarinetes", nombreProducto:"Clarinete Bb", marcas:["Yamaha","Selmer","Jupiter","Buffet"], cantidad:20, precioMin:210, precioMax:1900 },
+    { id:"trompetas", nombreProducto:"Trompeta Bb", marcas:["Yamaha","Bach","Jupiter","Conn"], cantidad:20, precioMin:220, precioMax:2100 },
+    { id:"trombones", nombreProducto:"Trombón Tenor", marcas:["Yamaha","Bach","Jupiter","Conn"], cantidad:15, precioMin:260, precioMax:2300 },
+    { id:"flautas", nombreProducto:"Flauta Traversa", marcas:["Yamaha","Jupiter","Pearl","Gemeinhardt"], cantidad:20, precioMin:160, precioMax:2000 },
+    { id:"microfonos", nombreProducto:"Micrófono Condensador", marcas:["Shure","Audio-Technica","Rode","Sennheiser","AKG"], cantidad:30, precioMin:35, precioMax:620 },
+    { id:"audifonos", nombreProducto:"Audífonos Profesionales", marcas:["Audio-Technica","Sennheiser","Sony","Beyerdynamic","AKG"], cantidad:20, precioMin:30, precioMax:450 },
+    { id:"interfaces", nombreProducto:"Interfaz de Audio", marcas:["Focusrite","PreSonus","Behringer","Steinberg","MOTU"], cantidad:20, precioMin:85, precioMax:900 },
+    { id:"mezcladoras", nombreProducto:"Mezcladora", marcas:["Yamaha","Behringer","Allen & Heath","Soundcraft","Mackie"], cantidad:20, precioMin:110, precioMax:1700 },
+    { id:"amplificadores", nombreProducto:"Amplificador", marcas:["Marshall","Fender","Boss","Orange","Vox","Line6"], cantidad:25, precioMin:85, precioMax:1400 },
+    { id:"pedales", nombreProducto:"Pedal de Efectos", marcas:["Boss","MXR","Electro-Harmonix","TC Electronic","Dunlop"], cantidad:20, precioMin:45, precioMax:340 },
+    { id:"dj", nombreProducto:"Controlador DJ", marcas:["Pioneer DJ","Numark","Denon DJ","Technics"], cantidad:15, precioMin:160, precioMax:2200 },
+    { id:"percusion", nombreProducto:"Percusión", marcas:["Pearl","Tama","LP Percussion","Meinl"], cantidad:15, precioMin:30, precioMax:600 },
+    { id:"accesorios", nombreProducto:"Accesorio", marcas:["Fender","Dunlop","D'Addario","Planet Waves","Hercules","Gator"], cantidad:30, precioMin:6, precioMax:180 }
+  ];
+
+  var BASE_TIME = 1735689600000;
+  var DIA_MS = 86400000;
+
+  function redondear(v){ return Math.round(v*100)/100; }
+
+  function generarProductos(){
+    var productos = [];
+    CONFIGS.forEach(function(config){
+      for (var i=0; i<config.cantidad; i++){
+        var marca = config.marcas[i % config.marcas.length];
+        var serie = SERIES[(i*3 + config.marcas.length) % SERIES.length];
+        var codigo = 100 + ((i*37) % 900);
+        var modelo = serie.split(" ")[0].toUpperCase() + "-" + codigo;
+        var nombre = config.nombreProducto + " " + marca + " " + serie;
+
+        var rango = config.precioMax - config.precioMin;
+        var precio = redondear(config.precioMin + rango * (((i*53) % 97) / 97));
+
+        var tieneDescuento = i % 3 === 0;
+        var pctDescuento = tieneDescuento ? 10 + ((i*7) % 31) : 0;
+        var precioAnterior = tieneDescuento ? redondear(precio / (1 - pctDescuento/100)) : null;
+
+        var calificacion = Math.min(5, redondear(3.5 + (((i*29) % 16)/10)));
+        var numeroOpiniones = 5 + ((i*13) % 195);
+        var stock = (i % 11 === 0) ? 0 : 1 + ((i*17) % 40);
+        var popularidad = (i*31 + config.cantidad) % 1000;
+        var fechaAgregado = BASE_TIME - ((i*3*DIA_MS) % (365*DIA_MS));
+
+        var categorias = config.guitarras ? [config.id, "guitarras"] : [config.id];
+        var id = config.id + "-" + (i+1);
+
+        productos.push({
+          id: id,
+          nombre: nombre,
+          marca: marca,
+          modelo: modelo,
+          categorias: categorias,
+          precio: precio,
+          precioAnterior: precioAnterior,
+          descuento: tieneDescuento ? pctDescuento : null,
+          calificacion: calificacion,
+          numeroOpiniones: numeroOpiniones,
+          stock: stock,
+          imagen: imagenProducto(config.id, i+1),
+          imagenBase: baseDe(config.id, i+1),
+          fechaAgregado: fechaAgregado,
+          popularidad: popularidad
+        });
+      }
+    });
+    return productos;
+  }
+
+  var INSTRUMENTOS = generarProductos();
+
+  /* =========================================================
+     4. UTILIDADES: normalizar, filtrar, buscar, ordenar, paginar
+  ========================================================== */
+  function normalizarTexto(t){
+    return t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+  }
+    
+
+  function filtrarPorCategoria(productos, catId){
+    if (catId === "todas") return productos;
+    return productos.filter(function(p){ return p.categorias.indexOf(catId) !== -1; });
+  }
+
+  function nombreCategoria(id){
+    var c = CATEGORIAS.filter(function(c){ return c.id === id; })[0];
+    return c ? c.nombre : "";
+  }
+
+  function buscarProductos(productos, termino){
+    var query = normalizarTexto(termino);
+    if (!query) return productos;
+    return productos.filter(function(p){
+      var catNombres = p.categorias.map(nombreCategoria).join(" ");
+      var campo = normalizarTexto(p.nombre + " " + p.marca + " " + p.modelo + " " + catNombres);
+      return campo.indexOf(query) !== -1;
+    });
+  }
+
+  function ordenarProductos(productos, orden){
+    var copia = productos.slice();
+    switch(orden){
+      case "precio-menor": return copia.sort(function(a,b){ return a.precio-b.precio; });
+      case "precio-mayor": return copia.sort(function(a,b){ return b.precio-a.precio; });
+      case "recientes": return copia.sort(function(a,b){ return b.fechaAgregado-a.fechaAgregado; });
+      case "calificados": return copia.sort(function(a,b){ return b.calificacion-a.calificacion; });
+      case "nombre-asc": return copia.sort(function(a,b){ return a.nombre.localeCompare(b.nombre); });
+      case "nombre-desc": return copia.sort(function(a,b){ return b.nombre.localeCompare(a.nombre); });
+      default: return copia.sort(function(a,b){ return b.popularidad-a.popularidad; });
+    }
+  }
+
+  var POR_PAGINA = 20;
+  function paginar(items, pagina){
+    var inicio = (pagina-1)*POR_PAGINA;
+    return items.slice(inicio, inicio+POR_PAGINA);
+  }
+  function totalPaginas(total){
+    return Math.max(1, Math.ceil(total/POR_PAGINA));
+  }
+
+  function obtenerSugerencias(termino, limite){
+    limite = limite || 7;
+    return buscarProductos(INSTRUMENTOS, termino).slice(0, limite);
+  }
+
+  function formatearPrecio(v){
+    return "$" + v.toLocaleString("es-MX", { minimumFractionDigits:2, maximumFractionDigits:2 });
+  }
+
+  /* =========================================================
+     5. ICONOS SVG REUTILIZABLES
+  ========================================================== */
+  function svgStar(filled){
+    return '<svg viewBox="0 0 24 24" width="13" height="13" fill="'+(filled?'#D4AF37':'none')+'" stroke="'+(filled?'#D4AF37':'#3d3d3d')+'" stroke-width="1.5"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>';
+  }
+  var SVG_HEART = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>';
+  var SVG_CART = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>';
+  var SVG_ZAP = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
+  var SVG_CHEV_L = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+  var SVG_CHEV_R = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+  var SVG_SEARCHX = '<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="8" x2="14" y2="14"/><line x1="14" y1="8" x2="8" y2="14"/></svg>';
+
+  /* =========================================================
+     6. ESTADO
+  ========================================================== */
+  var state = {
+    categoria: "todas",
+    orden: "populares",
+    busqueda: "",
+    pagina: 1,
+    favoritos: {},
+    carrito: 2
+  };
+
+  var ORDEN_OPCIONES = [
+    { id:"populares", label:"Más populares" },
+    { id:"precio-menor", label:"Precio menor" },
+    { id:"precio-mayor", label:"Precio mayor" },
+    { id:"recientes", label:"Más recientes" },
+    { id:"calificados", label:"Mejor calificados" },
+    { id:"nombre-asc", label:"Nombre A-Z" },
+    { id:"nombre-desc", label:"Nombre Z-A" }
+  ];
+
+  /* =========================================================
+     7. RENDER: SIDEBAR
+  ========================================================== */
+  var catListEl = document.getElementById("catList");
+
+  function renderSidebar(){
+    var html = '<button class="cat-btn'+(state.categoria==="todas"?" active":"")+'" data-cat="todas">' +
+      '<span class="cat-left"><span class="cat-emoji">🎼</span>Todos los instrumentos</span>' +
+      '</button>';
+
+    CATEGORIAS.forEach(function(cat){
+      html += '<button class="cat-btn'+(cat.grupo?" group":"")+(state.categoria===cat.id?" active":"")+'" data-cat="'+cat.id+'">' +
+        '<span class="cat-left"><span class="cat-emoji">'+cat.emoji+'</span>'+cat.nombre+'</span>' +
+        '</button>';
+    });
+
+    catListEl.innerHTML = html;
+  }
+
+  catListEl.addEventListener("click", function(e){
+    var btn = e.target.closest(".cat-btn");
+    if (!btn) return;
+    state.categoria = btn.getAttribute("data-cat");
+    state.pagina = 1;
+    renderSidebar();
+    update();
+  });
+
+  /* =========================================================
+     8. RENDER: SORT SELECT
+  ========================================================== */
+  var sortBtn = document.getElementById("sortBtn");
+  var sortMenu = document.getElementById("sortMenu");
+  var sortLabel = document.getElementById("sortLabel");
+
+  function renderSortMenu(){
+    sortMenu.innerHTML = ORDEN_OPCIONES.map(function(op){
+      return '<button data-orden="'+op.id+'" class="'+(op.id===state.orden?"active":"")+'">'+op.label+'</button>';
+    }).join("");
+  }
+  renderSortMenu();
+
+  sortBtn.addEventListener("click", function(){
+    sortMenu.classList.toggle("show");
+    sortBtn.classList.toggle("open");
+  });
+
+  sortMenu.addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-orden]");
+    if (!btn) return;
+    state.orden = btn.getAttribute("data-orden");
+    sortLabel.textContent = btn.textContent;
+    sortMenu.classList.remove("show");
+    sortBtn.classList.remove("open");
+    renderSortMenu();
+    state.pagina = 1;
+    update();
+  });
+
+  document.addEventListener("click", function(e){
+    if (!e.target.closest(".sort-wrap")){
+      sortMenu.classList.remove("show");
+      sortBtn.classList.remove("open");
+    }
+  });
+
+  /* =========================================================
+     9. MENÚ MÓVIL
+  ========================================================== */
+  var mobileNav = document.getElementById("mobileNav");
+  document.getElementById("mobileMenuBtn").addEventListener("click", function(){
+    mobileNav.classList.add("show");
+  });
+  document.getElementById("mobileNavClose").addEventListener("click", function(){
+    mobileNav.classList.remove("show");
+  });
+  mobileNav.addEventListener("click", function(e){
+    if (e.target === mobileNav) mobileNav.classList.remove("show");
+  });
+
+  /* =========================================================
+     10. RENDER: GRID DE PRODUCTOS
+  ========================================================== */
+  var gridEl = document.getElementById("grid");
+  var toastEl = document.getElementById("toast");
+  var cartCountEl = document.getElementById("cartCount");
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting){
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.08 });
+
+  function cardHTML(p, index){
+    var esFav = !!state.favoritos[p.id];
+    var sinStock = p.stock === 0;
+    var stockClass = sinStock ? "stock-out" : (p.stock<=5 ? "stock-low" : "stock-ok");
+    var stockTexto = sinStock ? "Sin stock" : (p.stock<=5 ? ("Últimas "+p.stock+" unidades") : "En stock");
+
+    var stars = "";
+    for (var i=0; i<5; i++){ stars += svgStar(i < Math.round(p.calificacion)); }
+
+    return (
+      '<article class="card" data-id="'+p.id+'" style="transition-delay:'+(Math.min(index,8)*40)+'ms">' +
+        '<div class="card-media">' +
+          (p.descuento ? '<span class="badge-discount">-'+p.descuento+'%</span>' : '') +
+          '<button class="fav-btn'+(esFav?" active":"")+'" data-fav="'+p.id+'" aria-label="Favorito">'+SVG_HEART+'</button>' +
+          '<img src="'+p.imagen+'" data-base="'+p.imagenBase+'" data-try="0" alt="'+p.nombre+'" loading="lazy" decoding="async" width="640" height="640"'+ONERROR_IMG+'>' +
+          (sinStock ? '<div class="out-overlay"><span>Agotado</span></div>' : '') +
+        '</div>' +
+        '<div class="card-body">' +
+          '<span class="card-brand">'+p.marca+' · '+p.modelo+'</span>' +
+          '<h3 class="card-title">'+p.nombre+'</h3>' +
+          '<div class="card-rating"><span class="stars">'+stars+'</span><span>'+p.calificacion.toFixed(1)+' ('+p.numeroOpiniones+')</span></div>' +
+          '<div class="card-price"><span class="now">'+formatearPrecio(p.precio)+'</span>' +
+            (p.precioAnterior ? '<span class="prev">'+formatearPrecio(p.precioAnterior)+'</span>' : '') +
+          '</div>' +
+          '<span class="card-stock '+stockClass+'">'+stockTexto+'</span>' +
+          '<div class="card-actions">' +
+            '<button class="btn-buy" data-buy="'+p.id+'" '+(sinStock?"disabled":"")+'>'+SVG_ZAP+' Comprar</button>' +
+            '<button class="btn-cart" data-cart="'+p.id+'" '+(sinStock?"disabled":"")+' aria-label="Agregar al carrito">'+SVG_CART+'</button>' +
+          '</div>' +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  function renderGrid(productos){
+    if (productos.length === 0){
+      gridEl.innerHTML = '<div class="empty-state" style="grid-column:1/-1">'+SVG_SEARCHX+'<p>No se encontraron instrumentos con estos filtros.</p></div>';
+      return;
+    }
+    gridEl.innerHTML = productos.map(cardHTML).join("");
+    gridEl.querySelectorAll(".card").forEach(function(card){ observer.observe(card); });
+  }
+
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function(){ toastEl.classList.remove("show"); }, 1800);
+  }
+
+  gridEl.addEventListener("click", function(e){
+    var favBtn = e.target.closest("[data-fav]");
+    if (favBtn){
+      var id = favBtn.getAttribute("data-fav");
+      state.favoritos[id] = !state.favoritos[id];
+      favBtn.classList.toggle("active", state.favoritos[id]);
+      showToast(state.favoritos[id] ? "Añadido a favoritos" : "Eliminado de favoritos");
+      return;
+    }
+    var cartBtn = e.target.closest("[data-cart]");
+    if (cartBtn && !cartBtn.disabled){
+      state.carrito++;
+      cartCountEl.textContent = state.carrito;
+      showToast("Producto agregado al carrito");
+      return;
+    }
+    var buyBtn = e.target.closest("[data-buy]");
+    if (buyBtn && !buyBtn.disabled){
+      showToast("Redirigiendo a compra...");
+      return;
+    }
+  });
+
+  /* =========================================================
+     11. RENDER: PAGINACIÓN
+  ========================================================== */
+  var paginationEl = document.getElementById("pagination");
+
+  function construirRango(actual, total){
+    if (total <= 7) {
+      var r = []; for (var i=1;i<=total;i++) r.push(i); return r;
+    }
+    var set = {};
+    set[1]=1; set[total]=total; set[actual]=actual;
+    if (actual-1>1) set[actual-1]=actual-1;
+    if (actual+1<total) set[actual+1]=actual+1;
+    var ordenado = Object.keys(set).map(Number).sort(function(a,b){return a-b;});
+    var resultado = [];
+    ordenado.forEach(function(p,i){
+      if (i>0 && p-ordenado[i-1]>1) resultado.push("...");
+      resultado.push(p);
+    });
+    return resultado;
+  }
+
+  function renderPagination(total){
+    var tp = totalPaginas(total);
+    if (tp <= 1){ paginationEl.innerHTML=""; return; }
+    var rango = construirRango(state.pagina, tp);
+
+    var html = '<button class="page-nav-btn" data-page="'+(state.pagina-1)+'" '+(state.pagina===1?"disabled":"")+'>'+SVG_CHEV_L+'<span>Anterior</span></button>';
+    rango.forEach(function(p){
+      if (p==="...") { html += '<span class="page-ellipsis">…</span>'; return; }
+      html += '<button class="page-num'+(p===state.pagina?" active":"")+'" data-page="'+p+'">'+p+'</button>';
+    });
+    html += '<button class="page-nav-btn" data-page="'+(state.pagina+1)+'" '+(state.pagina===tp?"disabled":"")+'><span>Siguiente</span>'+SVG_CHEV_R+'</button>';
+
+    paginationEl.innerHTML = html;
+  }
+
+  paginationEl.addEventListener("click", function(e){
+    var btn = e.target.closest("[data-page]");
+    if (!btn || btn.disabled) return;
+    state.pagina = parseInt(btn.getAttribute("data-page"), 10);
+    update(true);
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  /* =========================================================
+     12. BÚSQUEDA
+  ========================================================== */
+  var searchOverlay = document.getElementById("searchOverlay");
+  var searchInput = document.getElementById("searchInput");
+  var searchResults = document.getElementById("searchResults");
+  var searchBanner = document.getElementById("searchBanner");
+  var searchBannerTerm = document.getElementById("searchBannerTerm");
+
+  function abrirBuscador(){
+    searchOverlay.classList.add("show");
+    searchInput.value = "";
+    searchResults.innerHTML = "";
+    setTimeout(function(){ searchInput.focus(); }, 60);
+  }
+  function cerrarBuscador(){
+    searchOverlay.classList.remove("show");
+  }
+
+  document.getElementById("navSearchBtn").addEventListener("click", abrirBuscador);
+  document.getElementById("searchCloseBtn").addEventListener("click", cerrarBuscador);
+  searchOverlay.addEventListener("click", function(e){ if (e.target === searchOverlay) cerrarBuscador(); });
+
+  function renderSugerencias(termino){
+    if (!termino.trim()){ searchResults.innerHTML=""; return; }
+    var sugerencias = obtenerSugerencias(termino);
+    if (sugerencias.length === 0){
+      searchResults.innerHTML = '<p class="no-results">No encontramos instrumentos para "'+termino+'".</p>';
+      return;
+    }
+    var html = sugerencias.map(function(p){
+      return '<button class="suggestion" data-term="'+p.nombre.replace(/"/g,'&quot;')+'">' +
+        '<img src="'+p.imagen+'" data-base="'+p.imagenBase+'" data-try="0" alt="'+p.nombre+'" loading="lazy" decoding="async" width="44" height="44"'+ONERROR_IMG+'>' +
+        '<span style="min-width:0;flex:1"><span class="name">'+p.nombre+'</span><span class="meta">'+p.marca+' · '+nombreCategoria(p.categorias[0])+'</span></span>' +
+      '</button>';
+    }).join("");
+    html += '<button class="see-all" data-term="'+termino.replace(/"/g,'&quot;')+'">Ver todos los resultados para "'+termino+'"</button>';
+    searchResults.innerHTML = html;
+  }
+
+  searchInput.addEventListener("input", function(){ renderSugerencias(searchInput.value); });
+  searchInput.addEventListener("keydown", function(e){
+    if (e.key === "Enter" && searchInput.value.trim()){ confirmarBusqueda(searchInput.value); }
+    if (e.key === "Escape"){ cerrarBuscador(); }
+  });
+
+  searchResults.addEventListener("click", function(e){
+    var btn = e.target.closest("[data-term]");
+    if (!btn) return;
+    confirmarBusqueda(btn.getAttribute("data-term"));
+  });
+
+  function confirmarBusqueda(term){
+    state.busqueda = term;
+    state.pagina = 1;
+    cerrarBuscador();
+    update();
+  }
+
+  document.getElementById("clearSearchBtn").addEventListener("click", function(){
+    state.busqueda = "";
+    state.pagina = 1;
+    update();
+  });
+
+  /* =========================================================
+     13. UPDATE PRINCIPAL
+  ========================================================== */
+  function update(){
+    var porCategoria = filtrarPorCategoria(INSTRUMENTOS, state.categoria);
+    var porBusqueda = buscarProductos(porCategoria, state.busqueda);
+    var ordenado = ordenarProductos(porBusqueda, state.orden);
+    var pagina = paginar(ordenado, state.pagina);
+
+    if (state.busqueda){
+      searchBanner.classList.add("show");
+      searchBannerTerm.textContent = '"' + state.busqueda + '"';
+    } else {
+      searchBanner.classList.remove("show");
+    }
+
+    renderGrid(pagina);
+    renderPagination(ordenado.length);
+  }
+
+  renderSidebar();
+  update();
+})();
+</script>
+</body>
+</html>
